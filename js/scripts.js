@@ -65,6 +65,15 @@ let player2 = new Player();
 game.players.push(player1, player2);
 
 
+function updateCSS() {
+  if (game.activePlayer === 0) {
+    document.getElementById("player1panel").setAttribute("class", "p1active");
+    document.getElementById("player2panel").setAttribute("class", "p2notactive");
+  } else {
+    document.getElementById("player1panel").setAttribute("class", "p1notactive");
+    document.getElementById("player2panel").setAttribute("class", "p2active");
+  }
+}
 function updateScores() {
   const p1turnScore = game.players[0].turnScore; 
   const p2turnScore = game.players[1].turnScore;
@@ -96,26 +105,29 @@ function activePlayerButton() {
 
 window.addEventListener("load", function (){
   document.querySelector(".btn-new").addEventListener("click",  function() {
+    updateCSS();
     game.newGame();
     updateScores();
     document.querySelector("#radio1").checked=true
   });
     
   document.querySelector(".btn-roll").addEventListener("click", function () {
-    game.players[game.activePlayer].rollDice();
+       game.players[game.activePlayer].rollDice();
     updateScores();
     game.endGame();
     if (game.gameActive === false) {
       alert("You have won!");
     };
     updateScores();
-    activePlayerButton();
+    activePlayerButton()
+    updateCSS();;
 
 
   });
   document.querySelector(".btn-hold").addEventListener("click", function() {
     game.players[game.activePlayer].endTurn();
     game.changePlayer();
+    updateCSS();
     updateScores();
     game.endGame();
     if (game.gameActive === false) {
