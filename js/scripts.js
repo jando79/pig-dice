@@ -16,21 +16,22 @@ Game.prototype.changePlayer = function() {
 }
 
 Game.prototype.endGame = function() {
-  if (this.player[0].overAllScore >= 100 || this.player[1].overAllScore >= 100) {
+  if (game.players[game.activePlayer].turnScore + game.players[game.activePlayer].overAllScore >= 100) {
     this.gameActive = false;
   }
 }
 
 Game.prototype.newGame = function() {
   this.activePlayer = 0;
-  this.players[0].currentScore = 0;
-  this.players[1].currentScore = 0;
+  this.players[0].turnScore = 0;
+  this.players[1].turnScore = 0;
   this.players[0].overAllScore = 0;
   this.players[1].overAllScore = 0;
+ 
 }
 
 function randomMath() {
-  return Math.floor((Math.random() * 6) + 1);
+  return Math.floor((Math.random() * 6) + 2);
 }
 
 // Player Object Logic
@@ -43,9 +44,12 @@ Player.prototype.rollDice = function() {
   let roll = randomMath();
   if (roll === 1) {
     this.turnScore = 0;
+    game.changePlayer();
   } else {
     this.turnScore += roll;
   }
+  
+  
 }
 
 Player.prototype.endTurn = function() {
@@ -53,28 +57,61 @@ Player.prototype.endTurn = function() {
   this.turnScore = 0;
 }
 
+// UI
+
+let game = new Game();
+let player1 = new Player();
+let player2 = new Player();
+game.players.push(player1, player2);
 
 
+function updateScores() {
+  const p1turnScore = game.players[0].turnScore; 
+  const p2turnScore = game.players[1].turnScore;
+  const p1totalScore = game.players[0].overAllScore;
+  const p2totalScore = game.players[1].overAllScore;
+  document.getElementById("current-1").innerText = p1turnScore;
+  document.getElementById("current-2").innerText = p2turnScore;
+  document.getElementById("score-1").innerText = p1totalScore;
+  document.getElementById("score-2").innerText = p2totalScore;
+  
+}
+// function displayScores() {
+//   const turnScore = game.players[game.activePlayer].turnScore;
+//   if (game.activePlayer = 0) {
+//     document.getElementById("current-1").innerText = turnScore;
+//   } else if (game.activePlayer = 1) {
+//     document.getElementById("current-2").innerText = turnScore;
+//   }
+// }
 
-function handleFormSubmission(event) {
-  event.preventDefault();
-
+//game.players[game.activePlayer].turnScore = a bajillion
 
 
 function handleRollButton() {
   const rollButton = document.querySelector(".btn-roll");
-
-  let game = new Game()
-  let player1 = new Player();
-
-  
+  const holdButton = document.querySelector(".btn-hold");
+  const newGame = document.querySelector(".btn-new");
 }
-
 window.addEventListener("load", function (){
-  document.querySelector(".btn-new").addEventListener("click", NAMEOFNEWGAMEFUNCTION);
-
-  document.querySelector("btn-roll").addEventListener("click", NAMEOFROLLFUNCTION);
-
-  document.querySelector("btn-hold").addEventListener("click", NAMEOFHOLDFUNCTION);
+  document.querySelector(".btn-new").addEventListener("click", game.newGame())
+  document.querySelector(".btn-roll").addEventListener("click", function () {
+    game.players[game.activePlayer].rollDice();
+    updateScores();
+    game.endGame();
+    if (game.gameActive === false) {
+      alert("You have won!");
+    };
+    updateScores();
+  });
+  document.querySelector(".btn-hold").addEventListener("click", function() {
+    game.players[game.activePlayer].endTurn();
+    game.changePlayer();
+    updateScores();
+    game.endGame();
+    if (game.gameActive === false) {
+      alert("You have won!");
+    };
+  });
 
 });
