@@ -31,7 +31,7 @@ Game.prototype.newGame = function() {
 }
 
 function randomMath() {
-  return Math.floor((Math.random() * 6) + 2);
+  return Math.floor((Math.random() * 6) + 1);
 }
 
 // Player Object Logic
@@ -74,7 +74,14 @@ function updateScores() {
   document.getElementById("current-2").innerText = p2turnScore;
   document.getElementById("score-1").innerText = p1totalScore;
   document.getElementById("score-2").innerText = p2totalScore;
-  
+
+}
+function activePlayerButton() {
+  if (game.activePlayer === 0) {
+    document.querySelector("#radio1").checked=true;
+  } else {
+    document.querySelector("#radio2").checked=true;
+  }
 }
 // function displayScores() {
 //   const turnScore = game.players[game.activePlayer].turnScore;
@@ -87,14 +94,13 @@ function updateScores() {
 
 //game.players[game.activePlayer].turnScore = a bajillion
 
-
-function handleRollButton() {
-  const rollButton = document.querySelector(".btn-roll");
-  const holdButton = document.querySelector(".btn-hold");
-  const newGame = document.querySelector(".btn-new");
-}
 window.addEventListener("load", function (){
-  document.querySelector(".btn-new").addEventListener("click", game.newGame())
+  document.querySelector(".btn-new").addEventListener("click",  function() {
+    game.newGame();
+    updateScores();
+    document.querySelector("#radio1").checked=true
+  });
+    
   document.querySelector(".btn-roll").addEventListener("click", function () {
     game.players[game.activePlayer].rollDice();
     updateScores();
@@ -103,6 +109,9 @@ window.addEventListener("load", function (){
       alert("You have won!");
     };
     updateScores();
+    activePlayerButton();
+
+
   });
   document.querySelector(".btn-hold").addEventListener("click", function() {
     game.players[game.activePlayer].endTurn();
@@ -112,6 +121,14 @@ window.addEventListener("load", function (){
     if (game.gameActive === false) {
       alert("You have won!");
     };
+    activePlayerButton();
+
   });
 
 });
+
+//var elements = document.getElementsByName('myradios');
+//for (i=0;i<elements.length;i++) {
+  //if(elements[i].value == "clean") {
+    //elements[i].checked = true;
+  

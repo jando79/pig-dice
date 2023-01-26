@@ -1,32 +1,36 @@
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
-  <link rel="stylesheet" href="css/steyles.css" type="text/css">
+  <link rel="stylesheet" href="css/stylkles.css" type="text/css">
   <script src="js/scripts.js"></script>
   <title>Pig Game!~</title>
+  
 </head>
 <body>
+  <h1>Play Pig Dice!</h1>
+  <img src= "pigdice.jpg">
   <div class="wrapper clearfix">
     <div class="player-1-panel active">
 
-      <div class="player-name" id="name-1">Player 1</div>
+      <div class="player-name" id="name-1">Player 1 Total</div>
       <div class="player-score" id="score-1">0</div>
       <div class="player-current-box">
         <div class="player-current-label">Current</div>
         <div class="player-current-score" id="current-1">0</div>
       </div>
     </div>
-
+<br>
     <div class="player-2-panel">
       
-      <div class="player-name" id="name-2">Player 2</div>
+      <div class="player-name" id="name-2">Player 2 Total</div>
       <div class="player-score" id="score-2">0</div>
       <div class="player-current-box">
         <div class="player-current-label">Current</div>
         <div class="player-current-score" id="current-2">0</div>
-      </div>
+      </div><br>
     </div>
-    <p class="randomMath">Random Num</p>
+    <label><input type="radio" id="radio1" name="myradios" value="player-1" checked>Player 1</label>
+    <label><input type="radio" id="radio2" name="myradios" value="player-2">Player 2</label><br><br>
 
     <button class="btn-new">New game</button>
     <button class="btn-roll">Roll dice</button>
